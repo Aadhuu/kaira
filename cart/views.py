@@ -32,3 +32,9 @@ class Cartdecrement(View):
         else:
             c.delete()
         return redirect('cart:cartview')
+
+class Cartremove(View):
+    def get(self,request,i):
+        c=Cart.objects.get(id=i)
+        c.delete()
+        return redirect('cart:cartview')
