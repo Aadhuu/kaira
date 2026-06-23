@@ -1,0 +1,24 @@
+from django.shortcuts import render, redirect
+from django.views import View
+from shop.models import Product
+from cart.models import Cart
+class Addtocart(View):
+    def get(self,request,i):
+        u=request.user
+        p=Product.objects.get(id=i)
+
+        try:
+            c=Cart.objects.get(user=u,product=p)
+            c.quantity+=1
+            c.save()
+        except:
+            c=Cart.objects.create(user=u,product=p,quantity=1)
+            c.save()
+
+        return redirect('cart:cartview')
+
+class CartView(View):
+    def get(self,request):
+        c=Cart.objects.filter(user=request.user)
+        context={'cart':c}
+        return render(request,'cart.html',context)
