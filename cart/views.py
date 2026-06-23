@@ -22,3 +22,13 @@ class CartView(View):
         c=Cart.objects.filter(user=request.user)
         context={'cart':c}
         return render(request,'cart.html',context)
+
+class Cartdecrement(View):
+    def get(self,request,i):
+        c=Cart.objects.get(id=i)
+        if(c.quantity>1):
+           c.quantity-=1
+           c.save()
+        else:
+            c.delete()
+        return redirect('cart:cartview')

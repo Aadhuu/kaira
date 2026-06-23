@@ -56,25 +56,22 @@
                                         <td class="total-pr">
                                             <p>{{i.subtotal}}</p>
                                     </td>
-                                    <td class="remove-pr">
+                                        <td class="remove-pr">
                                         {% if i.product.stock > i.quantity %}
-                                        <a href="{% url 'cart:addtocart' i.product.id %}">
-									<i class="fas fa-plus"></i>
+                                        <a href="{% url 'cart:addtocart' i.product.id %}" class="btn btn-danger mt-5">Add</a>
+
+                                        <a href="{% url 'cart:cartdecrement' i.id %}" class="btn btn-danger mt-5 ">Delete
 								</a>
-<!--                                        <a href="">-->
-<!--									<i class="fas fa-minus"></i>-->
-<!--								</a>-->
-<!--                                        <a href="">-->
-<!--									<i class="fas fa-times"></i>-->
-<!--								</a>-->
-<!--                                        {% else %}-->
-<!--                                        <a href="">-->
-<!--									<i class="fas fa-minus"></i>-->
-<!--								</a>-->
-<!--                                        <a href="">-->
-<!--									<i class="fas fa-times"></i>-->
-<!--								</a>-->
-<!--                                        {% endif %}-->
+                                        <a href="" class="btn btn-danger mt-5">Remove
+								</a>
+                                        {% else %}
+                                        <a href="">
+									<i class="fas fa-minus"></i>
+								</a>
+                                        <a href="">
+									<i class="fas fa-times"></i>
+								</a>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}

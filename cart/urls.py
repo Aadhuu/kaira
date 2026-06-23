@@ -23,6 +23,8 @@ app_name = 'cart'
 urlpatterns = [
     path('addtocart/<int:i>',views.Addtocart.as_view(),name='addtocart'),
     path('cartview',views.CartView.as_view(),name='cartview'),
+    path('cartdecrement/<int:i>',views.Cartdecrement.as_view(),name='cartdecrement'),
+    path('cartremove/<int:i>',views.Cartremove.as_view(),name='cartremove'),
 
 ]
 
