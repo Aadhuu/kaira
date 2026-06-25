@@ -1,7 +1,7 @@
 from cart.models import Cart
 
 
-def car_items(request):
+def cart_items(request):
     total = 0
     if request.user.is_authenticated:
        u=request.user
@@ -9,6 +9,6 @@ def car_items(request):
 
 
        for i in c:
-           total=total+quantity
+           total=total+i.quantity
 
     return {'total':total}
