@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="all-title bg-warning">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Register</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">ABOUT US</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+            <div class="row special-list">
+                 {% for i in products %}
+                <div class="col-lg-3 col-md-6 special-grid best-seller mb-5 mt-3">
+                    <div class="products-single fix">
+
+                        <div class="box-img-hover">
+
+                            <img src="{{ i.image.url }}" class="" alt="Image" height="330px" width="100%">
+                            <div class="mask-icon">
+
+
+                            </div>
+                        </div>
+                        <div class="why-text">
+                            <h4>{{i.name}}</h4>
+                            <h5>₹{{i.price}}</h5>
+                            <a class="btn btn-danger" href="{% url 'shop:productdetail' i.id%}"> More Details</a>
+                            <a class="btn btn-danger" href="{% url 'cart:addtocart' i.id %}"> Add to Cart</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+                    </div>
+                </div>
+            </div>
+{% endblock %}
