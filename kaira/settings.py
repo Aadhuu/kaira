@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles','shop','crispy_forms','crispy_bootstrap5','cart',
+    'django.contrib.staticfiles','shop','crispy_forms','crispy_bootstrap5','cart','search',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 MIDDLEWARE = [

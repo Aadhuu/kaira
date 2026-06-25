@@ -192,10 +192,45 @@
             </div>
           </div>
         </div>
+
         {% if user.is_authenticated %}
         {% if user.is_superuser == False %}
-        <div class="col-3 col-lg-auto">
-          <ul class="list-unstyled d-flex m-0">
+<!--        <div class="col-3 col-lg-auto">-->
+<!--          <ul class="list-unstyled d-flex m-0">-->
+<!--            <li class="search"><a href=""><i class="fa-solid fa-magnifying-glass ">Search</i></a>-->
+<!--            <div class="top-search">-->
+<!--               <div class="container">-->
+<!--                 <form action="">-->
+<!--                   <div class="input-group">-->
+
+<!--                   <input type="text" name="q" class="form-control"  placeholder="Search">-->
+<!--                    <span class="input-group-addon close-search"><button type="submit"><i class="fa-solid fa-magnifying-glass fs-3"></i></button></span>-->
+<!--                   </div>-->
+<!--                </form>-->
+<!--               </div>-->
+<!--            </div></li>-->
+
+   <div class="col-3 col-lg-auto">
+    <ul class="list-unstyled d-flex m-0 align-items-center">
+
+        <li class="me-3">
+            <a href="#" class="text-uppercase">
+                <i class="fa-solid fa-magnifying-glass"></i> Search
+            </a>
+          <li class="search position-relative">
+    <div class="top-search">
+        <form action="">
+            <input type="text"
+                   name="q"
+                   class="form-control"
+                   placeholder="Search">
+        </form>
+    </div>
+</li>
+           </li>
+
+
+
             <li class="d-none d-lg-block">
               <a href="index.html" class="text-uppercase mx-3">Wishlist <span class="wishlist-count">(0)</span>
               </a>
@@ -207,6 +242,7 @@
             </li>
             {% endif %}
             {% endif %}
+
             <li class="d-lg-none">
               <a href="#" class="mx-2">
                 <svg width="24" height="24" viewBox="0 0 24 24">
@@ -236,6 +272,7 @@
 
     </div>
   </nav>
+
 {% block content %}
 
 {% endblock %}
