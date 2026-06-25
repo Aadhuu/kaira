@@ -20,7 +20,11 @@ class Addtocart(View):
 class CartView(View):
     def get(self,request):
         c=Cart.objects.filter(user=request.user)
-        context={'cart':c}
+        total=0
+        for i in c:
+            total=total+i.subtotal()
+
+        context={'cart':c,'total':total}
         return render(request,'cart.html',context)
 
 class Cartdecrement(View):
