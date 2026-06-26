@@ -14,3 +14,19 @@ class Cart(models.Model):
 
     def subtotal(self):
         return self.quantity * self.product.price
+
+class Order(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    order_id=models.CharField(max_length=50)
+    amount =models.IntegerField(default=0)
+    ordered_date =models.DateTimeField(auto_now_add=True)
+    payment_method =models.CharField(max_length=50,default="")
+    address =models.TextField(max_length=500)
+    phone =models.IntegerField(default=0)
+    is_ordered =models.BooleanField(default=False)
+    delivery_status=models.BooleanField(default='Pending',max_length=50)
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order,on_delete=models.CASCADE,related_name='items')
+    product =models.ForeignKey(Product,on_delete=models.CASCADE)
+    quantity =models.IntegerField(default=0)
