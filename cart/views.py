@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect
 from django.views import View
 from shop.models import Product
 from cart.models import Cart
+
+
+
+
 class Addtocart(View):
     def get(self,request,i):
         u=request.user
@@ -43,6 +47,17 @@ class Cartremove(View):
         c.delete()
         return redirect('cart:cartview')
 
+from cart.forms import CheckoutForm
 class Checkout(View):
+    def post(self,request):
+        form_instance=CheckoutForm(request.POST)
+        if form_instance.is_valid():
+            form_instance.save()
+            return render(request,'payment.html')
+
     def get(self,request):
-        return render(request,'checkout.html')
+        form_instance=CheckoutForm()
+        context={'form':form_instance}
+        return render(request,'checkout.html',context)
+
+
