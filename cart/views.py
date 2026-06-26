@@ -1,3 +1,4 @@
+from django.db.transaction import commit
 from django.shortcuts import render, redirect
 from django.views import View
 from shop.models import Product
@@ -52,7 +53,17 @@ class Checkout(View):
     def post(self,request):
         form_instance=CheckoutForm(request.POST)
         if form_instance.is_valid():
-            form_instance.save()
+            o=form_instance.save(commit=False)
+            u=request.user
+            o.user=u
+
+            c=Cart.objects.filter(user=u)
+            total=0
+            for i in c:
+                total+=i.subtotal()
+            o.amount=total
+            o.save()
+
             return render(request,'payment.html')
 
     def get(self,request):
