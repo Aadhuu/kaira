@@ -1,8 +1,9 @@
-from django.db.transaction import commit
+
 from django.shortcuts import render, redirect
 from django.views import View
 from shop.models import Product
 from cart.models import Cart
+import razorpay
 
 
 
@@ -64,7 +65,16 @@ class Checkout(View):
             o.amount=total
             o.save()
 
-            return render(request,'payment.html')
+            if o.payment_method == "Online" :
+                client=razorpay.Client(auth=('rzp_test_T6IP07TeCheda2','S9k2VRBBxxkWL6m0rCxWVd5p'))
+                print(client)
+                response_payment=client.order.create(dict(amount=total*100,currency='INR'))
+                print(response_payment)
+            else:
+                pass
+
+            context={'payment':response_payment}
+            return render(request,'payment.html',context)
 
     def get(self,request):
         form_instance=CheckoutForm()
