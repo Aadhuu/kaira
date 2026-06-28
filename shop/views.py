@@ -83,7 +83,7 @@ class AddCategory(View):
         form_instance = CategoryForm()
         context = {'form': form_instance}
         return render(request, 'addcategory.html', context)
-
+@method_decorator(admin_required,name='dispatch')
 @method_decorator(login_required,name='dispatch')
 class AddProduct(View):
     def post(self,request):
@@ -96,15 +96,20 @@ class AddProduct(View):
         context = {'form': form_instance}
         return render(request, 'addproduct.html', context)
 
+
 @method_decorator(login_required,name='dispatch')
+
 class AddStock(View):
-    def post(self,request,i):
-        form_instance=StockForm(request.POST,request.FILES)
+    def post(self, request, i):
+        p = Product.objects.get(id=i)
+        form_instance = StockForm(request.POST, instance=p)
         if form_instance.is_valid():
             form_instance.save()
             return redirect('home')
-    def get(self,request,i):
-        p=Product.objects.get(id=i)
+
+    def get(self, request, i):
+        p = Product.objects.get(id=i)
         form_instance = StockForm(instance=p)
         context = {'form': form_instance}
         return render(request, 'addstock.html', context)
+
