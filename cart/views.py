@@ -7,6 +7,8 @@ import razorpay
 
 from cart.models import Order
 
+from cart.models import OrderItem
+
 
 class Addtocart(View):
     def get(self,request,i):
@@ -48,7 +50,7 @@ class Cartremove(View):
         c=Cart.objects.get(id=i)
         c.delete()
         return redirect('cart:cartview')
-
+import uuid
 from cart.forms import CheckoutForm
 class Checkout(View):
     def post(self,request):
@@ -70,13 +72,25 @@ class Checkout(View):
                 print(client)
                 response_payment=client.order.create(dict(amount=total*100,currency='INR'))
                 print(response_payment)
-                o.order_id=response_payment['order_id']
+                o.order_id=response_payment['id']
                 o.save()
+                context = {'payment': response_payment}
+                return render(request, 'payment.html', context)
             else:
-                pass
+                id='ord_cod'+uuid.uuid4().hex[:14]
+                o.order_id=id
+                o.is_ordered = True
+                o.save()
+                c = Cart.objects.filter(user=request.user)
+                for i in c:
+                    item = OrderItem.objects.create(order=o, product=i.product, quantity=i.quantity)
+                    item.save()
+                    item.product.stock -= i.quantity
+                    item.product.save()
 
-            context={'payment':response_payment}
-            return render(request,'payment.html',context)
+                # cart
+                c.delete()
+            return render(request,'payment.html')
 
     def get(self,request):
         form_instance=CheckoutForm()
@@ -91,15 +105,21 @@ class Paymentsuccess(View):
     def post(self,request):
         print(request.POST)
         id=request.POST.get('razorpay_order_id')
-        o=Order.objects.get(id=id)
-        o.is_ordered = True
-        o.save()
+
         # order
         o=Order.objects.get(order_id=id)
         o.is_ordered = True
         o.save()
         # order_items
+        c=Cart.objects.filter(user=request.user)
+        for i in c:
+            item=OrderItem.objects.create(order=o,product=i.product,quantity=i.quantity)
+            item.save()
+            item.product.stock-=i.quantity
+            item.product.save()
 
-
-
+        #cart
+        c.delete()
         return render(request,'paymentsuccess.html')
+
+

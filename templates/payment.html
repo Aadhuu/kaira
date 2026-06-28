@@ -14,6 +14,7 @@
         </div>
     </div>
 <div class="container w-50 border border-3 shadow mt-5 p-5 mb-5 text-center">
+    {% if payment %}
 <form action="{% url 'cart:paymentsuccess' %}" method="POST">
 <script
    src="https://checkout.razorpay.com/v1/checkout.js"
@@ -31,6 +32,10 @@
 ></script>
 <input type="hidden" custom="Hidden Element" name="hidden"/>
 </form>
+    {% else %}
+    <h4>Your order is placed successfully</h4>
+    <a href="{% url 'home' %}" class="btn btn-danger">Go to home</a>
+    {% endif %}
     </div>
 
 {% endblock %}
