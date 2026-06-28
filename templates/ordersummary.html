@@ -15,7 +15,36 @@
         </div>
     </div>
     <!-- End All Title Box -->
-<div class="container  p-5 mb-3">
+
+
+<div class="container  w-50 p-5 mb-5 mt-5 border border-2">
+
+    {% for i in order %}
+    <div class="container mt-5 p-5  border border-4 border-success fs-5">
+        <h4 class="fs-5">OrderNo: {{i.order_id}}</h4>
+        <h4 class="fs-5">OrderTotal: {{i.amount}}</h4>
+        <h4 class="fs-5">OrderedOn: {{i.ordered_date}}</h4>
+        <h4 class="fs-5">Delivery Status: <span class="text-danger">{{i.delivery_status}}</span></h4>
+        {% for j in i.items.all %}
+        <div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{j.product.image.url}}" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">Product name: {{j.product.name}}</h5>
+        <p class="card-text">Price: {{j.product.price}}</p>
+        <p class="card-text"><small class="text-muted">Qty: {{j.quantity}}</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+        {% endfor %}
+
+    </div>
+    {% endfor %}
 
 </div>
 {% endblock %}
+

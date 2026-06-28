@@ -9,7 +9,7 @@ from shop.forms import LoginForm ,ProductForm, CategoryForm, StockForm
 from django.contrib.auth import logout,authenticate,login
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-
+from shop.decorators import admin_required
 
 class Home(View):
     def get(self, request):
@@ -64,13 +64,15 @@ class UserLogin(View):
                 return redirect('shop:userlogin')
 
 @method_decorator(login_required,name='dispatch')
+
 class UserLogout(View):
     def get(self,request):
         logout(request)
         print(request.user)
         return redirect('shop:userlogin')
 
-
+@method_decorator(admin_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class AddCategory(View):
     def post(self,request):
         form_instance=CategoryForm(request.POST,request.FILES)
@@ -82,7 +84,7 @@ class AddCategory(View):
         context = {'form': form_instance}
         return render(request, 'addcategory.html', context)
 
-
+@method_decorator(login_required,name='dispatch')
 class AddProduct(View):
     def post(self,request):
         form_instance=ProductForm(request.POST,request.FILES)
@@ -94,7 +96,7 @@ class AddProduct(View):
         context = {'form': form_instance}
         return render(request, 'addproduct.html', context)
 
-
+@method_decorator(login_required,name='dispatch')
 class AddStock(View):
     def post(self,request,i):
         form_instance=StockForm(request.POST,request.FILES)
