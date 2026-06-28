@@ -5,7 +5,7 @@ from shop.models import Product
 from cart.models import Cart
 import razorpay
 
-
+from cart.models import Order
 
 
 class Addtocart(View):
@@ -70,6 +70,8 @@ class Checkout(View):
                 print(client)
                 response_payment=client.order.create(dict(amount=total*100,currency='INR'))
                 print(response_payment)
+                o.order_id=response_payment['order_id']
+                o.save()
             else:
                 pass
 
@@ -81,4 +83,23 @@ class Checkout(View):
         context={'form':form_instance}
         return render(request,'checkout.html',context)
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
+@method_decorator(csrf_exempt,name='dispatch')
+class Paymentsuccess(View):
+    def post(self,request):
+        print(request.POST)
+        id=request.POST.get('razorpay_order_id')
+        o=Order.objects.get(id=id)
+        o.is_ordered = True
+        o.save()
+        # order
+        o=Order.objects.get(order_id=id)
+        o.is_ordered = True
+        o.save()
+        # order_items
+
+
+
+        return render(request,'paymentsuccess.html')
